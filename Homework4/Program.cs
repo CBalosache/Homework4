@@ -10,46 +10,33 @@ namespace Homework4
     {
         static void Main(string[] args)
         {
-            string nameOne = "Bob";
-            string nameTwo = "Carly";
-            Console.WriteLine(Comparison.CompareByName(nameOne, nameTwo));
-            Console.WriteLine(Comparison.CompareByLength(nameOne,nameTwo));
-            nameOne = "Carly";
-            nameTwo = "Carly";
-            Console.WriteLine(Comparison.CompareByName(nameOne, nameTwo));
-            Console.WriteLine(Comparison.CompareByLength(nameOne, nameTwo));
-            nameOne = "Edward";
-            nameTwo = "Carly";
-            Console.WriteLine(Comparison.CompareByName(nameOne, nameTwo));
-            Console.WriteLine(Comparison.CompareByLength(nameOne, nameTwo));
+            Comparison comp1 = new Comparison();
+            Comparison comp2 = new Comparison();
+            comp1.Name = "Cosmin";
+            comp2.Name = "Balosache";
+            Console.WriteLine(comp1.CompareByName(comp2));
+            Console.WriteLine(comp1.CompareByLength(comp2));
             Console.Read();
         }
     }
-    class Comparison
+    class Comparison : ICompareByName, ICompareByLength
     {
         public string Name { get; set; }
-
-        interface ICompareByName
+        public int CompareByName(object obj)
         {
-	        int CompareByName();
+            Comparison that = obj as Comparison;
+            return string.Compare(this.Name, that.Name);
         }
-        interface ICompareByLength
+        public int CompareByLength(object obj)
         {
-	        int CompareByLength();
-        }
-        public static int CompareByName(string name1, string name2)
-        {
-            return string.Compare(name1, name2);
-        }
-        public static int CompareByLength(string name1, string name2)
-        {
-            if(name1.Length == name2.Length)
+            Comparison that = obj as Comparison;
+            if (this.Name.Length == that.Name.Length)
             {
                 return 0;
             }
             else
             {
-                if(name1.Length > name2.Length)
+                if (this.Name.Length > that.Name.Length)
                 {
                     return 1;
                 }
@@ -59,5 +46,14 @@ namespace Homework4
                 }
             }
         }
+    }
+    
+    interface ICompareByName
+    {
+        int CompareByName(object o);
+    }
+    interface ICompareByLength
+    {
+        int CompareByLength(object o);
     }
 }
